@@ -1,0 +1,15 @@
+/vendor/
+
+# Configuración privada (credenciales): nunca se sube
+/src/config/config.php
+
+# Archivos subidos por los usuarios de la aplicación
+/assets/img/usuarios/*
+!/assets/img/usuarios/avatarNULL.png
+/src/archive/proyectos/*
+!/src/archive/proyectos/.gitkeep
+/src/archive/tareas/*
+!/src/archive/tareas/.gitkeep
+
+# Copias locales de la base de datos con datos reales
+/src/database/local/

@@ -1,0 +1,16 @@
+{
+    "name": "total/tfg-gestor",
+    "autoload": {
+        "psr-4": {
+            "Total\\TfgGestor\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "David Rodriguez"
+        }
+    ],
+    "require-dev": {
+        "phpmailer/phpmailer": "^6.10"
+    }
+}

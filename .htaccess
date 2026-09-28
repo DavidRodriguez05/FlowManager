@@ -1,0 +1,14 @@
+<Files "navegacionGestor.php">
+    Require all denied
+</Files>
+<Files "filtrosTareas.php">
+    Require all denied
+</Files>
+Options -Indexes
+ErrorDocument 400 https://cdmdavidro.es/src/includes/functions/error400.php
+ErrorDocument 401 https://cdmdavidro.es/src/includes/functions/error401.php
+ErrorDocument 403 https://cdmdavidro.es/src/includes/functions/error403.php
+ErrorDocument 404 https://cdmdavidro.es/src/includes/functions/error404.php
+ErrorDocument 500 https://cdmdavidro.es/src/includes/functions/error500.php
+ErrorDocument 502 https://cdmdavidro.es/src/includes/functions/error502.php
+ErrorDocument 503 https://cdmdavidro.es/src/includes/functions/error503.php

@@ -1,0 +1,5 @@
+en el apartado de notificaciones mostrar en modo de lista las tareas que vaya a caducar con respecto a 3 dias y enviar una notificacion al correo electronico
+
+falta por añadir sesiones a algunas paginas
+
+tengo que poner los metodos de eliminar y ver etc por post y quitar el get para mas seguridad

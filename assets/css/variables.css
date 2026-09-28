@@ -1,0 +1,89 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html {
+    scroll-behavior: smooth; /* Desplazamiento suave al hacer clic en enlaces */
+    text-rendering: optimizeLegibility; /* Mejora la legibilidad del texto */
+    -webkit-font-smoothing: antialiased; /* Suaviza las fuentes en navegadores Webkit */
+    -moz-osx-font-smoothing: grayscale; /* Suaviza las fuentes en macOS */
+}
+
+body {
+    transition: all 0.3s ease-in-out; /* Transiciones suaves para cambios de estilo */
+    line-height: 1.6; /* Mejora la legibilidad del texto */
+    overflow-x: hidden; /* Evita el scroll horizontal no deseado */
+}
+
+.efectoA {
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+    transition: color 0.3s ease, transform 0.3s ease; /* Transiciones suaves para enlaces */
+}
+
+.efectoA:hover {
+    color: var(
+        --color-menu-hover-texto
+    ); /* Cambia el color al pasar el ratón */
+    transform: scale(1.05); /* Efecto de zoom suave */
+}
+.efectoA:active,
+button:active {
+    transform: scale(
+        0.95
+    ) !important; /* Hace que el elemento se haga más pequeño al hacer clic */
+}
+button {
+    cursor: pointer; /* Cambia el cursor al pasar sobre botones */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transiciones suaves */
+}
+
+button:hover {
+    transform: scale(1.05); /* Efecto de zoom suave en botones */
+}
+
+img {
+    max-width: 100%; /* Asegura que las imágenes no se desborden */
+    height: auto; /* Mantiene la proporción de las imágenes */
+    transition: transform 0.3s ease; /* Transición suave para imágenes */
+}
+
+img:hover {
+    transform: scale(1.05); /* Efecto de zoom suave al pasar el ratón */
+}
+
+:root {
+    /** Variables Menu*/
+    /* Colores */
+    --color-menu-fondo-principal: #ff7681; /* Rojo oscuro para el fondo principal del navbar */
+    --color-menu-fondo-secundario: #ff617b; /* Rojo vibrante para el degradado del navbar */
+    --color-menu-titulo: #ff3a6b; /* Rosa fuerte para acentos (enlaces, botones, etc.) */
+    --color-menu-enlace: #a82b4a; /* Rosa claro para hover en enlaces */
+    --color-menu-hover-texto: #ffffff;
+    --color-menu-hover-boton: #cbeef3; /* Azul pastel para hover en botones */
+
+    /* Tipografía */
+    --fuente-principal: "Arial", sans-serif; /* Fuente principal del navbar */
+
+    /* Tamaños */
+    --tamano-texto-marca: 2.2rem; /* Tamaño del texto de la marca (navbar-brand) */
+    --tamano-texto-enlace: 1.4rem; /* Tamaño del texto de los enlaces */
+    --tamano-texto-boton: 1.2rem; /* Tamaño del texto de los botones */
+    --altura-navbar: 50px; /* Altura del navbar */
+    --margen-navbar: 20px; /* Margen general del navbar */
+    --margen-navbar-pequeno: 10px; /* Margen reducido para pantallas pequeñas */
+
+    /*? Variables globales*/
+
+    /* Colores*/
+
+    --color-letra-principal: #690031;
+    --color-fondo-principal: #ffeaed;
+    --color-fondo-body: #fdf6f6 !important;
+    --color-fondo-button: #e7e7e7;
+    --color-fondo-active-button: #ffeaec;
+}
+@font-face {
+    font-family: roboto;
+    src: url(../fonts/roboto.ttf);
+}

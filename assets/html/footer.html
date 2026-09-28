@@ -1,0 +1,242 @@
+<style>
+    @import url(https://cdmdavidro.es/assets/css/variables.css);
+
+    .footer {
+        margin-top: 40px;
+        width: 100%;
+        background-color: var(--color-fondo-principal);
+        color: var(--color-letra-principal);
+        padding: 40px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .footer-contenido {
+        width: 90%;
+        max-width: 1200px;
+        display: flex;
+        flex-wrap: wrap; /* Permite que los elementos se ajusten en varias filas */
+        justify-content: center; /* Centra los elementos horizontalmente */
+        align-items: center; /* Centra los elementos verticalmente */
+        gap: 20px; /* Espaciado entre los elementos */
+        margin-bottom: 20px;
+        opacity: 0;
+        transform: translateY(50px);
+        animation: fadeInUp 1s ease-in-out forwards;
+    }
+
+    .footer-logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .footer-logo:hover {
+        transform: scale(1.1);
+    }
+
+    .footer-logo img {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    .footer-logo img:hover {
+        transform: rotate(360deg);
+    }
+
+    .footer-logo h2 {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .footer-enlaces,
+    .footer-contacto,
+    .footer-redes {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-enlaces h4,
+    .footer-contacto h4,
+    .footer-redes h4 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .footer-enlaces ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-enlaces ul li {
+        margin-bottom: 5px;
+    }
+
+    .footer-enlaces ul li a {
+        text-decoration: none;
+        color: var(--color-letra-principal);
+        transition: color 0.3s ease;
+    }
+
+    .footer-enlaces ul li a:hover {
+        color: var(--color-secundario);
+    }
+
+    .footer-contacto p {
+        margin: 5px 0;
+    }
+
+    .footer-contacto a {
+        text-decoration: none;
+        color: var(--color-letra-principal);
+        transition: color 0.3s ease;
+    }
+
+    .footer-contacto a:hover {
+        color: var(--color-secundario);
+    }
+
+    .footer-redes .redes-iconos {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .footer-redes .redes-iconos a img {
+        width: 30px;
+        height: 30px;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .footer-redes .redes-iconos a img:hover {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+
+    .footer-copyright {
+        text-align: center;
+        font-size: 14px;
+        color: var(--color-letra-secundaria);
+        opacity: 0;
+        animation: fadeIn 1s ease-in-out 0.5s forwards;
+    }
+
+    /* Animaciones */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Estilos responsivos */
+    @media (max-width: 768px) {
+        .footer-contenido {
+            flex-direction: column; /* Apila los elementos verticalmente */
+            align-items: center; /* Centra los elementos */
+            text-align: center;
+        }
+
+        .footer-logo img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .footer-logo h2 {
+            font-size: 20px;
+        }
+
+        .footer-enlaces ul li a {
+            font-size: 16px;
+        }
+
+        .footer-contacto p {
+            font-size: 14px;
+        }
+
+        .footer-redes .redes-iconos a img {
+            width: 25px;
+            height: 25px;
+        }
+    }
+</style>
+<footer class="footer">
+    <div class="footer-contenido">
+        <div class="footer-logo animado">
+            <img
+                src="https://cdmdavidro.es/assets/img/FlowManager.png"
+                alt="FlowManager Logo"
+            />
+            <h2>FlowManager</h2>
+        </div>
+        <div class="footer-enlaces animado">
+            <h4>Enlaces útiles</h4>
+            <ul>
+                <li><a href="#introduccion">Inicio</a></li>
+                <li><a href="#colaboraciones">Destacado</a></li>
+                <li><a href="#informacion">Servicios</a></li>
+                <li><a href="#comenzar">Comenzar</a></li>
+            </ul>
+        </div>
+        <div class="footer-contacto animado">
+            <h4>Contacto</h4>
+            <p>
+                Email:
+                <a href="mailto:soporte@flowmanager.com"
+                    >soporte@flowmanager.com</a
+                >
+            </p>
+            <p>Teléfono: <a href="tel:+34000000000">+34 000 000 000</a></p>
+        </div>
+        <div class="footer-redes animado">
+            <h4>Síguenos</h4>
+            <div class="redes-iconos">
+                <a href="https://www.facebook.com"
+                    ><img
+                        src="https://cdmdavidro.es/assets/img/facebook.svg"
+                        alt="Facebook"
+                /></a>
+                <a href="https://github.com"
+                    ><img
+                        src="https://cdmdavidro.es/assets/img/github.svg"
+                        alt="GitHub"
+                /></a>
+                <a href="https://www.linkedin.com"
+                    ><img
+                        src="https://cdmdavidro.es/assets/img/linkedin.svg"
+                        alt="LinkedIn"
+                /></a>
+                <a href="https://www.instagram.com/"
+                    ><img
+                        src="https://cdmdavidro.es/assets/img/twitter.svg"
+                        alt="Instagram"
+                /></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <p>&copy; 2025 FlowManager. Todos los derechos reservados.</p>
+    </div>
+</footer>

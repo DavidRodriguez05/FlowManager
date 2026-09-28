@@ -1,0 +1,152 @@
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+/>
+<style>
+    @import url(https://cdmdavidro.es/assets/css/variables.css);
+    .navbar {
+        min-height: 10vh;
+        background: linear-gradient(
+            90deg,
+            var(--color-menu-fondo-principal),
+            var(--color-menu-fondo-secundario)
+        );
+        overflow: hidden;
+    }
+
+    .navbarBoxShadow {
+        box-shadow: 0px 10px 20px 0px var(--color-menu-fondo-principal);
+    }
+    .navbar-brand {
+        color: var(--color-menu-titulo) !important;
+        font-size: var(--tamano-texto-marca);
+        font-weight: bold;
+        text-shadow: 2px 2px 4px #000;
+        margin-left: var(--margen-navbar);
+    }
+
+    .nav-link {
+        color: var(--color-menu-enlace) !important;
+        font-size: var(--tamano-texto-enlace);
+        margin-right: var(--margen-navbar);
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: var(--color-menu-hover-texto) !important;
+        transform: scale(1.1);
+    }
+
+    .btn {
+        color: var(--color-menu-enlace);
+        border-color: var(--color-menu-titulo);
+        font-size: var(--tamano-texto-boton);
+        padding: 10px 20px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: var(--color-menu-titulo);
+        color: var(--color-menu-hover-boton);
+    }
+
+    .navbar img {
+        height: var(--altura-navbar);
+        width: auto;
+        margin-right: 15px;
+        cursor: pointer;
+    }
+
+    .navbar-nav {
+        margin: 0 auto; /* Centra el contenedor de los enlaces */
+        justify-content: center; /* Asegura que los enlaces estén centrados */
+    }
+
+    .nav-item {
+        margin: 0 10px; /* Espaciado entre los enlaces */
+    }
+
+    /* Deshabilitar el efecto hover en pantallas pequeñas */
+    @media (max-width: 768px) {
+        .nav-link:hover {
+            transform: none;
+        }
+        .navbar-brand {
+            margin-left: var(--margen-navbar-pequeno);
+        }
+    }
+</style>
+<nav class="navbar navbar-expand-lg" id="navbar">
+    <div class="container-fluid">
+        <img
+            id="logo"
+            src="https://cdmdavidro.es/assets/favicon/FlowManager.png"
+            alt="FlowManager Logo"
+        />
+        <a class="navbar-brand efectoA" href="">FlowManager</a>
+        <button
+            id="navbarCambio"
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a
+                        class="nav-link active efectoA"
+                        aria-current="page"
+                        href="#introduccion"
+                        >Inicio</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link efectoA" href="#colaboraciones"
+                        >Destacado</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link efectoA" href="#informacion"
+                        >Servicios</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link efectoA" href="#comenzar">Comenzar</a>
+                </li>
+            </ul>
+            <button class="btn" id="accesoPanel" type="submit">
+                Accede a tu panel
+            </button>
+        </div>
+    </div>
+</nav>
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+></script>
+<script>
+    const logo = document.querySelector("#logo");
+    logo.addEventListener("click", () => {
+        window.location.href = "https://cdmdavidro.es/public/index.php";
+    });
+
+    const botonNav = document.querySelector("#navbarCambio");
+    botonNav.addEventListener("click", () => {
+        const navbar = document.querySelector("#navbar");
+        navbar.classList.toggle("navbarBoxShadow");
+    });
+
+    const botonAccesoPanel = document.querySelector("#accesoPanel");
+    botonAccesoPanel.addEventListener("click", () => {
+        window.location.href = "https://cdmdavidro.es/src/php/gestor.php";
+    });
+</script>

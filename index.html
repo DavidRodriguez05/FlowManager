@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FlowManager - Gestiona tus Tareas con Hermosos Colores</title>
+        <style>
+            /* ========== Base Styles ========== */
+            :root {
+                --purple: #cdb4db;
+                --light-pink: #ffc8dd;
+                --pink: #ffafcc;
+                --light-blue: #bde0fe;
+                --blue: #a2d2ff;
+                --dark-text: #333333;
+                --light-text: #666666;
+                --white: #ffffff;
+                --light-gray: #f5f5f5;
+                --gray: #dddddd;
+                --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                --radius: 0.75rem;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--dark-text);
+            }
+            html,
+            body {
+                overflow-x: hidden;
+            }
+            .contenedor {
+                width: 90%;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                line-height: 1.3;
+                margin-bottom: 1rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            p {
+                margin-bottom: 1rem;
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            a {
+                text-decoration: none;
+                color: var(--dark-text);
+                transition: color 0.3s ease;
+            }
+
+            a:hover {
+                color: var(--pink);
+            }
+
+            button {
+                cursor: pointer;
+                font-family: inherit;
+            }
+
+            section {
+                padding: 80px 0;
+            }
+
+            .section-header {
+                text-align: center;
+                max-width: 700px;
+                margin: 0 auto 60px;
+            }
+
+            .text-gradient {
+                background: linear-gradient(
+                    135deg,
+                    var(--light-pink),
+                    var(--blue)
+                );
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                display: inline;
+            }
+
+            /* ========== botones ========== */
+            .boton {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 12px 24px;
+                border-radius: var(--radius);
+                font-weight: 600;
+                transition: all 0.3s ease;
+                border: none;
+                font-size: 1rem;
+            }
+
+            .boton i {
+                margin-left: 8px;
+            }
+
+            .boton-primary {
+                background-color: var(--light-pink);
+                color: var(--white);
+            }
+
+            .boton-primary:hover {
+                background-color: var(--pink);
+            }
+
+            .boton-gradient {
+                background: linear-gradient(
+                    90deg,
+                    var(--pink) 0%,
+                    var(--blue) 100%
+                );
+                color: var(--white);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                margin-bottom: 10px;
+            }
+
+            .boton-gradient:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            }
+
+            .boton-outline {
+                border: 2px solid var(--purple);
+                background: transparent;
+                color: var(--dark-text);
+            }
+
+            .boton-outline:hover {
+                background-color: var(--purple);
+                color: var(--white);
+            }
+
+            .boton-white {
+                background-color: var(--white);
+                color: var(--purple);
+            }
+
+            .boton-white:hover {
+                background-color: rgba(255, 255, 255, 0.8);
+            }
+
+            .boton-outline-white {
+                border: 2px solid var(--white);
+                background: transparent;
+                color: var(--white);
+            }
+
+            .boton-outline-white:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            /* ========== navegacion ========== */
+            .navegacion {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                background-color: rgba(255, 255, 255, 0.8);
+                -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(10px);
+                z-index: 1000;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            }
+
+            .navegacion .contenedor {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 80px;
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+            }
+
+            .logo-icono {
+                width: 36px;
+                height: 36px;
+                border-radius: 8px;
+                background: linear-gradient(135deg, var(--purple), var(--blue));
+                color: var(--white);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                margin-right: 10px;
+            }
+
+            .logo-texto {
+                font-size: 1.5rem;
+                font-weight: bold;
+                background: linear-gradient(135deg, var(--purple), var(--blue));
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+
+            .links {
+                display: flex;
+                align-items: center;
+                gap: 30px;
+            }
+
+            .menu-toggle {
+                display: none;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+
+            /* ========== seccion1 Section ========== */
+            .seccion1 {
+                padding-top: 120px;
+                padding-bottom: 80px;
+                overflow: hidden;
+            }
+
+            .seccion1 .contenedor {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+                align-items: center;
+            }
+
+            .seccion1-content {
+                animation: fadeInUp 0.8s ease forwards;
+            }
+
+            .caracteristicas-list {
+                margin: 20px 0 30px;
+            }
+
+            .caracteristica-item {
+                display: flex;
+                align-items: center;
+                margin-bottom: 12px;
+            }
+
+            .caracteristica-item i {
+                color: var(--blue);
+                margin-right: 10px;
+            }
+
+            .botones {
+                display: flex;
+                gap: 15px;
+                margin-top: 30px;
+            }
+
+            .seccion1-image {
+                position: relative;
+                animation: fadeInUp 0.8s ease 0.2s forwards;
+                opacity: 0;
+            }
+
+            .image-contenedor {
+                position: relative;
+                background-color: var(--white);
+                border-radius: 20px;
+                padding: 10px;
+                box-shadow: var(--shadow);
+                overflow: hidden;
+            }
+
+            .image-contenedor img {
+                border-radius: 12px;
+                width: 100%;
+            }
+
+            .carta-flotante {
+                position: absolute;
+                background-color: var(--white);
+                border-radius: 15px;
+                padding: 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+                animation: float 3s ease-in-out infinite;
+            }
+
+            .card-1 {
+                bottom: 10px;
+                right: 10px;
+                border: 1px solid rgba(189, 224, 254, 0.5);
+            }
+
+            .card-2 {
+                top: 10px;
+                left: 10px;
+                border: 1px solid rgba(205, 180, 219, 0.5);
+                animation-delay: 1s;
+            }
+
+            .carta-flotante .icono {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--white);
+            }
+
+            .card-1 .icono {
+                background-color: var(--light-pink);
+            }
+
+            .card-2 .icono {
+                background-color: var(--light-blue);
+            }
+
+            .carta-flotante .title {
+                font-weight: bold;
+                margin-bottom: 0;
+            }
+
+            .carta-flotante .subtitulo {
+                font-size: 0.75rem;
+                color: var(--light-text);
+                margin-bottom: 0;
+            }
+
+            /* ========== caracteristicas Section ========== */
+            .caracteristicas {
+                background-color: var(--light-gray);
+            }
+
+            .caracteristicas-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 30px;
+            }
+
+            .caracteristica-card {
+                background-color: var(--white);
+                padding: 30px;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .caracteristica-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            }
+
+            .caracteristica-card .icono {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 20px;
+                font-size: 1.5rem;
+                color: var(--white);
+            }
+
+            .icono.purple {
+                background-color: var(--purple);
+            }
+
+            .icono.pink {
+                background-color: var(--pink);
+            }
+
+            .icono.light-pink {
+                background-color: var(--light-pink);
+            }
+
+            .icono.blue {
+                background-color: var(--blue);
+            }
+
+            .icono.light-blue {
+                background-color: var(--light-blue);
+            }
+
+            /* ========== How It Works Section ========== */
+            .steps {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 30px;
+                margin-bottom: 50px;
+            }
+
+            .step {
+                position: relative;
+                text-align: center;
+            }
+
+            .step:not(:last-child)::after {
+                content: "";
+                position: absolute;
+                top: 30px;
+                right: -15px;
+                width: 100%;
+                height: 2px;
+                background: linear-gradient(
+                    90deg,
+                    var(--light-pink),
+                    var(--light-blue)
+                );
+                z-index: -1;
+                display: none;
+            }
+
+            .step-number {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                margin: 0 auto 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.25rem;
+                font-weight: bold;
+                color: var(--white);
+            }
+
+            .purple {
+                background-color: var(--purple);
+            }
+
+            .pink {
+                background-color: var(--pink);
+            }
+
+            .light-pink {
+                background-color: var(--light-pink);
+            }
+
+            .light-blue {
+                background-color: var(--light-blue);
+            }
+
+            .cta-center {
+                text-align: center;
+                margin-top: 50px;
+            }
+
+            /* ========== testimonios Section ========== */
+            .testimonios {
+                background: linear-gradient(
+                    135deg,
+                    rgba(189, 224, 254, 0.1),
+                    rgba(205, 180, 219, 0.1)
+                );
+            }
+
+            .testimonios-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 30px;
+                margin-bottom: 60px;
+            }
+
+            .testimonio-card {
+                background-color: var(--white);
+                padding: 30px;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                transition: transform 0.3s ease;
+            }
+
+            .testimonio-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .usuarios {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .avatar {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background-color: var(--purple);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--white);
+                font-weight: bold;
+                margin-right: 15px;
+                border: 2px solid var(--light-pink);
+            }
+
+            .usuarios-info h4 {
+                margin-bottom: 5px;
+            }
+
+            .usuarios-info p {
+                color: var(--light-text);
+                font-size: 0.875rem;
+                margin-bottom: 0;
+            }
+
+            .quote {
+                font-style: italic;
+                margin-bottom: 20px;
+            }
+
+            .estrellas {
+                color: #ffc107;
+            }
+
+            .companies {
+                background-color: var(--white);
+                padding: 30px;
+                border-radius: var(--radius);
+                text-align: center;
+                max-width: 900px;
+                margin: 0 auto;
+                box-shadow: var(--shadow);
+                border: 1px solid rgba(189, 224, 254, 0.2);
+            }
+
+            .companies p {
+                font-size: 1.25rem;
+                margin-bottom: 30px;
+            }
+
+            .highlight {
+                font-weight: bold;
+                color: var(--pink);
+            }
+
+            .compania-logos {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+
+            .compania-logos .logo {
+                color: var(--light-text);
+                font-size: 1.25rem;
+                font-weight: bold;
+            }
+
+            /* ========== CTA Section ========== */
+            .cta {
+                padding: 80px 0;
+            }
+
+            .cta-card {
+                background: linear-gradient(135deg, var(--purple), var(--blue));
+                border-radius: 24px;
+                overflow: hidden;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            }
+
+            .cta-content {
+                padding: 60px;
+                color: var(--white);
+            }
+
+            .cta-content h2 {
+                font-size: 2rem;
+                margin-bottom: 20px;
+            }
+
+            .cta-botones {
+                display: flex;
+                gap: 15px;
+                margin-top: 30px;
+            }
+
+            .cta-image {
+                padding: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+            }
+
+            .app-preview {
+                background-color: rgba(255, 255, 255, 0.8);
+                border-radius: 12px;
+                overflow: hidden;
+                width: 100%;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(10px);
+            }
+
+            .window-header {
+                display: flex;
+                align-items: center;
+                padding: 12px;
+                background-color: rgba(255, 255, 255, 0.9);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+            .window-dots {
+                display: flex;
+                gap: 6px;
+                margin-right: 20px;
+            }
+
+            .dot {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+            }
+
+            .red {
+                background-color: #ff5f57;
+            }
+
+            .yellow {
+                background-color: #ffbd2e;
+            }
+
+            .green {
+                background-color: #28c941;
+            }
+
+            .window-titulo {
+                flex-grow: 1;
+                text-align: center;
+                font-size: 0.875rem;
+                color: var(--light-text);
+            }
+
+            .app-preview-content {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+                padding: 20px;
+            }
+
+            .preview-column {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .preview-item {
+                height: 30px;
+                border-radius: 6px;
+                opacity: 0.5;
+            }
+
+            .preview-column.purple .preview-item {
+                background-color: var(--purple);
+            }
+
+            .preview-column.pink .preview-item {
+                background-color: var(--pink);
+            }
+
+            .preview-column.light-blue .preview-item {
+                background-color: var(--light-blue);
+            }
+
+            /* ========== Footer ========== */
+            .footer {
+                background-color: var(--light-gray);
+                padding: 80px 0 40px;
+            }
+
+            .footer-grid {
+                display: grid;
+                grid-template-columns: 2fr 1fr 1fr 1fr;
+                gap: 40px;
+                margin-bottom: 40px;
+            }
+
+            .footer-about p {
+                margin: 20px 0;
+            }
+
+            .social-links {
+                display: flex;
+                gap: 15px;
+            }
+
+            .social-links a {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                background-color: var(--white);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--light-text);
+                transition: all 0.3s ease;
+            }
+
+            .social-links a:hover {
+                background-color: var(--purple);
+                color: var(--white);
+                transform: translateY(-3px);
+            }
+
+            .footer-links h3,
+            .footer-contact h3 {
+                font-size: 1.25rem;
+                margin-bottom: 20px;
+            }
+
+            .footer-links ul,
+            .footer-contact ul {
+                list-style: none;
+            }
+
+            .footer-links li,
+            .footer-contact li {
+                margin-bottom: 12px;
+            }
+
+            .footer-contact li {
+                display: flex;
+                align-items: flex-start;
+            }
+
+            .footer-contact i {
+                margin-right: 10px;
+                color: var(--purple);
+                margin-top: 5px;
+            }
+
+            .footer-bottom {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-top: 30px;
+                border-top: 1px solid var(--gray);
+            }
+
+            .legal-links {
+                display: flex;
+                gap: 20px;
+            }
+
+            /* ========== Animations ========== */
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes float {
+                0%,
+                100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+            }
+
+            /* ========== Responsive Styles ========== */
+            @media (max-width: 992px) {
+                .seccion1 .contenedor {
+                    grid-template-columns: 1fr;
+                }
+
+                .seccion1-content {
+                    text-align: center;
+                    order: 1;
+                }
+
+                .seccion1-image {
+                    order: 0;
+                    margin-bottom: 40px;
+                }
+
+                .caracteristica-item {
+                    justify-content: center;
+                }
+
+                .botones {
+                    justify-content: center;
+                }
+
+                .step::after {
+                    display: none;
+                }
+
+                .cta-card {
+                    grid-template-columns: 1fr;
+                }
+
+                .cta-image {
+                    display: none;
+                }
+
+                .footer-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
+
+            @media (max-width: 850px) {
+                h1 {
+                    font-size: 2rem;
+                }
+
+                h2 {
+                    font-size: 1.75rem;
+                }
+
+                .links {
+                    display: none;
+                    position: absolute;
+                    top: 80px;
+                    left: 0;
+                    width: 100%;
+                    background-color: var(--white);
+                    flex-direction: column;
+                    padding: 20px;
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                }
+
+                .links.active {
+                    display: flex;
+                }
+
+                .menu-toggle {
+                    display: block;
+                }
+
+                .footer-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .footer-bottom {
+                    flex-direction: column;
+                    gap: 20px;
+                    text-align: center;
+                }
+            }
+
+            @media (max-width: 576px) {
+                section {
+                    padding: 60px 0;
+                }
+
+                .botones {
+                    flex-direction: column;
+                }
+
+                .cta-botones {
+                    flex-direction: column;
+                }
+
+                .compania-logos {
+                    flex-direction: column;
+                    gap: 15px;
+                }
+
+                .legal-links {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+                .footer-grid {
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                }
+
+                .footer-about,
+                .footer-links,
+                .footer-contact {
+                    text-align: center;
+                }
+
+                .footer-contact li {
+                    justify-content: center;
+                    text-align: left;
+                }
+
+                .cta-content {
+                    padding: 30px 20px;
+                }
+
+                .carta-flotante {
+                    position: static;
+                    margin: 10px auto;
+                    width: 90%;
+                }
+
+                .image-contenedor {
+                    text-align: center;
+                }
+
+                .contenedor {
+                    padding: 0 10px;
+                }
+                .testimonios-grid {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .testimonio-card {
+                    width: 90%;
+                }
+                .caracteristicas-grid {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .caracteristica-card {
+                    width: 90%;
+                }
+            }
+        </style>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link
+            rel="shortcut icon"
+            href="assets/img/FlowManager.png"
+            type="image/x-icon"
+        />
+    </head>
+
+    <body>
+        <!-- Navegación -->
+        <nav class="navegacion">
+            <div class="contenedor">
+                <div class="logo">
+                    <div class="logo-icono">FM</div>
+                    <span class="logo-texto">FlowManager</span>
+                </div>
+                <div class="links" id="navLinks">
+                    <a href="#caracteristicas">Características</a>
+                    <a href="#como-funciona">Cómo Funciona</a>
+                    <a href="#testimonios">Testimonios</a>
+                    <button class="boton boton-primary" id="btnGestor1">
+                        Comenzar
+                    </button>
+                </div>
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Sección seccion1 -->
+        <section class="seccion1">
+            <div class="contenedor">
+                <div class="seccion1-content">
+                    <h1>
+                        Gestiona tus Tareas con
+                        <span class="text-gradient">Hermosos Colores</span>
+                    </h1>
+                    <p>
+                        FlowManager te ayuda a organizar tus proyectos con una
+                        interfaz colorida e intuitiva. Aumenta la productividad
+                        y colabora sin problemas con tu equipo.
+                    </p>
+
+                    <div class="caracteristicas-list">
+                        <div class="caracteristica-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span
+                                >Interfaz intuitiva de arrastrar y soltar</span
+                            >
+                        </div>
+                        <div class="caracteristica-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Sistema de organización colorido</span>
+                        </div>
+                        <div class="caracteristica-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Colaboración en tiempo real</span>
+                        </div>
+                        <div class="caracteristica-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Sincronización multiplataforma</span>
+                        </div>
+                    </div>
+
+                    <div class="botones">
+                        <button class="boton boton-gradient" id="btnGestor2">
+                            Comienza Gratis
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="seccion1-image">
+                    <div class="image-contenedor">
+                        <img
+                            src="https://placehold.co/600x400/a2d2ff/ffffff?text=FlowManager+UI"
+                            alt="Panel de FlowManager"
+                        />
+
+                        <div class="carta-flotante card-1">
+                            <div class="icono">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="text">
+                                <p class="titulo">¡Tarea Completada!</p>
+                                <p class="subtitulo">Justo ahora</p>
+                            </div>
+                        </div>
+
+                        <div class="carta-flotante card-2">
+                            <div class="icono">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="text">
+                                <p class="titulo">Nuevo Proyecto</p>
+                                <p class="subtitulo">Crear ahora</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Características -->
+        <section class="caracteristicas" id="caracteristicas">
+            <div class="contenedor">
+                <div class="section-header">
+                    <h2>
+                        Características Diseñadas para
+                        <span class="text-gradient">Productividad</span>
+                    </h2>
+                    <p>
+                        Todo lo que necesitas para organizar tu trabajo y
+                        mejorar la eficiencia de tu equipo, todo en una
+                        plataforma colorida e intuitiva.
+                    </p>
+                </div>
+
+                <div class="caracteristicas-grid">
+                    <div class="caracteristica-card">
+                        <div class="icono pink">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3>Gestión de Tareas</h3>
+                        <p>
+                            Crea, organiza y realiza un seguimiento de las
+                            tareas con nuestra interfaz intuitiva. Establece
+                            prioridades y plazos fácilmente.
+                        </p>
+                    </div>
+
+                    <div class="caracteristica-card">
+                        <div class="icono purple">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Colaboración en Equipo</h3>
+                        <p>
+                            Comparte proyectos, asigna tareas y comunica con tu
+                            equipo en tiempo real.
+                        </p>
+                    </div>
+
+                    <div class="caracteristica-card">
+                        <div class="icono blue">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <h3>Línea de Tiempo del Proyecto</h3>
+                        <p>
+                            Visualiza la línea de tiempo de tu proyecto con
+                            gráficos de Gantt y calendarios interactivos.
+                        </p>
+                    </div>
+
+                    <div class="caracteristica-card">
+                        <div class="icono light-blue">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Seguimiento de Tiempo</h3>
+                        <p>
+                            Registra el tiempo dedicado a las tareas y genera
+                            informes detallados para facturación o análisis de
+                            productividad.
+                        </p>
+                    </div>
+
+                    <div class="caracteristica-card">
+                        <div class="icono pink">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Búsqueda Avanzada</h3>
+                        <p>
+                            Encuentra lo que necesitas rápidamente con potentes
+                            opciones de búsqueda y filtrado.
+                        </p>
+                    </div>
+
+                    <div class="caracteristica-card">
+                        <div class="icono purple">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3>Acceso Seguro</h3>
+                        <p>
+                            Protege tus datos con funciones avanzadas de
+                            seguridad y controles de acceso personalizables.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Cómo Funciona -->
+        <section class="como-funciona" id="como-funciona">
+            <div class="contenedor">
+                <div class="section-header">
+                    <h2>
+                        Cómo Funciona
+                        <span class="text-gradient">FlowManager</span>
+                    </h2>
+                    <p>
+                        Comenzar es fácil. Sigue estos simples pasos para
+                        organizar tu trabajo y aumentar tu productividad.
+                    </p>
+                </div>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number purple">01</div>
+                        <h3>Regístrate y Crea un Espacio de Trabajo</h3>
+                        <p>
+                            Crea tu cuenta gratuita y configura tu espacio de
+                            trabajo personal o de equipo en segundos.
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number pink">02</div>
+                        <h3>Construye tus Proyectos</h3>
+                        <p>
+                            Crea proyectos, agrega listas de tareas y organiza
+                            tu trabajo con nuestro sistema colorido.
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number light-pink">03</div>
+                        <h3>Invita a tu Equipo</h3>
+                        <p>
+                            Colabora con tu equipo invitando a miembros y
+                            asignando tareas.
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number light-blue">04</div>
+                        <h3>Rastrea y Completa Tareas</h3>
+                        <p>
+                            Monitorea el progreso, registra el tiempo y celebra
+                            las tareas completadas con tu equipo.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="cta-center">
+                    <button class="boton boton-gradient" id="btnGestor3">
+                        Pruébalo Gratis
+                    </button>
+                </div>
+            </div>
+        </section>
+        <section class="testimonios" id="testimonios">
+            <div class="contenedor">
+                <div class="section-header">
+                    <h2>
+                        Amado por
+                        <span class="text-gradient">Equipos Productivos</span>
+                    </h2>
+                    <p>
+                        Descubre lo que nuestros usuarios tienen que decir sobre
+                        cómo FlowManager ha mejorado su flujo de trabajo y
+                        productividad.
+                    </p>
+                </div>
+
+                <div class="testimonios-grid">
+                    <div class="testimonio-card">
+                        <div class="usuarios">
+                            <div class="avatar">SJ</div>
+                            <div class="usuarios-info">
+                                <h4>Sarah Johnson</h4>
+                                <p>Directora de Marketing, CreativeWorks</p>
+                            </div>
+                        </div>
+                        <p class="quote">
+                            "FlowManager transformó la forma en que nuestro
+                            equipo de marketing gestiona las campañas. La
+                            interfaz colorida hace que sea fácil ver el estado
+                            de los proyectos de un vistazo."
+                        </p>
+                        <div class="estrellas">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="testimonio-card">
+                        <div class="usuarios">
+                            <div class="avatar">MC</div>
+                            <div class="usuarios-info">
+                                <h4>Michael Chen</h4>
+                                <p>Gerente de Producto, TechInnovate</p>
+                            </div>
+                        </div>
+                        <p class="quote">
+                            "Como gerente de producto, necesito realizar un
+                            seguimiento de múltiples proyectos simultáneamente.
+                            El diseño intuitivo de FlowManager me ayuda a
+                            mantenerme organizado y enfocado."
+                        </p>
+                        <div class="estrellas">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="testimonio-card">
+                        <div class="usuarios">
+                            <div class="avatar">ER</div>
+                            <div class="usuarios-info">
+                                <h4>Elena Rodríguez</h4>
+                                <p>Diseñadora Freelance, Autónoma</p>
+                            </div>
+                        </div>
+                        <p class="quote">
+                            "FlowManager me ayuda a gestionar proyectos de
+                            clientes y plazos. El sistema de codificación por
+                            colores es brillante para organizar diferentes tipos
+                            de tareas."
+                        </p>
+                        <div class="estrellas">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="companies">
+                    <p>
+                        Únete a más de
+                        <span class="highlight">10,000+ equipos</span> que
+                        confían en FlowManager para organizar su trabajo.
+                    </p>
+                    <div class="compania-logos">
+                        <div class="logo">Empresa A</div>
+                        <div class="logo">Empresa B</div>
+                        <div class="logo">Empresa C</div>
+                        <div class="logo">Empresa D</div>
+                        <div class="logo">Empresa E</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="contenedor">
+                <div class="cta-card">
+                    <div class="cta-content">
+                        <h2>
+                            ¿Listo para aumentar la productividad de tu equipo?
+                        </h2>
+                        <p>
+                            Únete a miles de equipos que usan FlowManager para
+                            organizar su trabajo y lograr más juntos. Comienza
+                            tu prueba gratuita hoy, sin necesidad de tarjeta de
+                            crédito.
+                        </p>
+
+                        <div class="cta-botones">
+                            <button class="boton boton-white" id="btnGestor4">
+                                Comienza Gratis
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="cta-image">
+                        <div class="app-preview">
+                            <div class="window-header">
+                                <div class="window-dots">
+                                    <div class="dot red"></div>
+                                    <div class="dot yellow"></div>
+                                    <div class="dot green"></div>
+                                </div>
+                                <div class="window-titulo">FlowManager</div>
+                            </div>
+                            <div class="app-preview-content">
+                                <div class="preview-column purple">
+                                    <div class="preview-item"></div>
+                                    <div class="preview-item"></div>
+                                </div>
+                                <div class="preview-column pink">
+                                    <div class="preview-item"></div>
+                                    <div class="preview-item"></div>
+                                </div>
+                                <div class="preview-column light-blue">
+                                    <div class="preview-item"></div>
+                                    <div class="preview-item"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="contenedor">
+                <div class="footer-grid">
+                    <div class="footer-about">
+                        <div class="logo">
+                            <div class="logo-icono">FM</div>
+                            <span class="logo-texto">FlowManager</span>
+                        </div>
+                        <p>
+                            Una hermosa e intuitiva plataforma de gestión de
+                            tareas y proyectos para equipos de todos los
+                            tamaños.
+                        </p>
+                        <div class="social-links">
+                            <a href="https://x.com/home?lang=es"
+                                ><i class="fab fa-twitter"></i
+                            ></a>
+                            <a href="https://es.linkedin.com/"
+                                ><i class="fab fa-linkedin"></i
+                            ></a>
+                            <a href="https://github.com/"
+                                ><i class="fab fa-github"></i
+                            ></a>
+                            <a href="https://www.instagram.com/"
+                                ><i class="fab fa-instagram"></i
+                            ></a>
+                        </div>
+                    </div>
+
+                    <div class="footer-links">
+                        <h3>Producto</h3>
+                        <ul>
+                            <li>
+                                <a href="#caracteristicas">Características</a>
+                            </li>
+                            <li><a href="#como-funciona">Como Funciona</a></li>
+                            <li>
+                                <a href="#testimonios">Preguntas Frecuentes</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-contact">
+                        <h3>Contacto</h3>
+                        <ul>
+                            <li>
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:hello@FlowManager.com"
+                                    >soporte@FlowManager.com</a
+                                >
+                            </li>
+                            <li>
+                                <i class="fas fa-phone"></i>
+                                <a href="tel:+34000000000">+34 000 000 000</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>
+                                    Madrid, España
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>
+                        © <span id="currentYear"></span> FlowManager. Todos los
+                        derechos reservados.
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+        <script
+            src="https://cdn.gpteng.co/gptengineer.js"
+            type="module"
+        ></script>
+        <script>
+            // Toggle mobile menu
+            document.addEventListener("DOMContentLoaded", function () {
+                // Mobile menu toggle
+                const menuToggle = document.getElementById("menuToggle");
+                const navLinks = document.getElementById("navLinks");
+
+                if (menuToggle && navLinks) {
+                    menuToggle.addEventListener("click", function () {
+                        navLinks.classList.toggle("active");
+
+                        // Change icon based on menu state
+                        const icon = menuToggle.querySelector("i");
+                        if (navLinks.classList.contains("active")) {
+                            icon.classList.remove("fa-bars");
+                            icon.classList.add("fa-times");
+                        } else {
+                            icon.classList.remove("fa-times");
+                            icon.classList.add("fa-bars");
+                        }
+                    });
+                }
+
+                // Close mobile menu when clicking on a link
+                const links = document.querySelectorAll(".nav-links a");
+                links.forEach((link) => {
+                    link.addEventListener("click", function () {
+                        if (navLinks.classList.contains("active")) {
+                            navLinks.classList.remove("active");
+                            const icon = menuToggle.querySelector("i");
+                            icon.classList.remove("fa-times");
+                            icon.classList.add("fa-bars");
+                        }
+                    });
+                });
+
+                // Smooth scrolling for anchor links
+                document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+                    anchor.addEventListener("click", function (e) {
+                        const targetId = this.getAttribute("href");
+                        if (targetId === "#" || !targetId) return; // Permite volver arriba si es "#"
+
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            e.preventDefault();
+                            const navbar = document.querySelector(".navbar");
+                            const navbarHeight = navbar
+                                ? navbar.offsetHeight
+                                : 0;
+                            const targetPosition =
+                                targetElement.getBoundingClientRect().top +
+                                window.pageYOffset;
+
+                            window.scrollTo({
+                                top: targetPosition - navbarHeight,
+                                behavior: "smooth",
+                            });
+                        }
+                        // Si no existe el destino, deja el comportamiento por defecto
+                    });
+                });
+
+                // Update navbar style on scroll
+                window.addEventListener("scroll", function () {
+                    const navbar = document.querySelector(".navbar");
+                    if (window.scrollY > 50) {
+                        navbar.style.boxShadow =
+                            "0 10px 30px rgba(0, 0, 0, 0.1)";
+                        navbar.style.backgroundColor =
+                            "rgba(255, 255, 255, 0.95)";
+                    } else {
+                        navbar.style.boxShadow =
+                            "0 2px 10px rgba(0, 0, 0, 0.05)";
+                        navbar.style.backgroundColor =
+                            "rgba(255, 255, 255, 0.8)";
+                    }
+                });
+
+                // Set current year in the footer
+                const currentYearElement =
+                    document.getElementById("currentYear");
+                if (currentYearElement) {
+                    currentYearElement.textContent = new Date().getFullYear();
+                }
+
+                // Add animation to elements when they enter the viewport
+                const animateOnScroll = function () {
+                    const elements = document.querySelectorAll(
+                        ".feature-card, .step, .testimonial-card"
+                    );
+
+                    elements.forEach((element) => {
+                        const elementPosition =
+                            element.getBoundingClientRect().top;
+                        const windowHeight = window.innerHeight;
+
+                        if (elementPosition < windowHeight - 100) {
+                            element.style.opacity = "1";
+                            element.style.transform = "translateY(0)";
+                        }
+                    });
+                };
+
+                // Set initial styles for animation targets
+                const setupAnimations = function () {
+                    const elements = document.querySelectorAll(
+                        ".feature-card, .step, .testimonial-card"
+                    );
+
+                    elements.forEach((element) => {
+                        element.style.opacity = "0";
+                        element.style.transform = "translateY(20px)";
+                        element.style.transition =
+                            "opacity 0.6s ease, transform 0.6s ease";
+                    });
+                };
+
+                setupAnimations();
+
+                // Run animation check on load and scroll
+                animateOnScroll();
+                window.addEventListener("scroll", animateOnScroll);
+
+                document.querySelectorAll("button").forEach((btn) => {
+                    btn.addEventListener("click", () => {
+                        window.location.href =
+                            "https://cdmdavidro.es/src/php/gestor.php";
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
